@@ -1,4 +1,5 @@
-FROM apachegeode/geode:1.0.0-incubating.M3
+FROM apachegeode/geode
 
 COPY gfshWrapper.sh gfshWrapper.sh
 COPY startServer.sh startServer.sh
+COPY log4j.xml log4j.xml

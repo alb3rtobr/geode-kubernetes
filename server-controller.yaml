@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: markito/geode:k8
+        image: azwickey/geode
         command: ["/startServer.sh"]
         ports:
           - containerPort: 40404
