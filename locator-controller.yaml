@@ -1,11 +1,10 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
-  name: locator
+  name: geode-locator
 spec:
+  serviceName: "geode-locator"
   replicas: 1
-  selector:
-    geode-locator: "true"
   template:
     metadata:
       labels:
@@ -16,6 +15,6 @@ spec:
       containers:
       - name: locator
         image: markito/geode:k8
-        command: ["/gfshWrapper.sh", "gfsh", "start", "locator", "--name=locator1"]
+        command: ["/gfshWrapper.sh", "gfsh", "start", "locator", "--name=geode-locator"]
         ports:
           - containerPort: 10334

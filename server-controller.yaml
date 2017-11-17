@@ -1,11 +1,10 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: geode-server
 spec:
-  replicas: 1
-  selector:
-    geode-server: "true"
+  serviceName: "geode-locator"
+  replicas: 3
   template:
     metadata:
       labels:
