@@ -6,9 +6,9 @@ Set of instructions and artifacts to get [Apache Geode](http://geode.incubator.a
 
 Go to the `image` directory and build the Docker image using:
 
-`docker build . -t markito/geode:k8`
+`docker build . -t <your image name and tag>`
 
-# Running on Minikube
+# Running on PKS
 
 *Steps*:
 
@@ -17,12 +17,21 @@ Go to the `image` directory and build the Docker image using:
 1. `kubectl create -f server-controller.yaml`
 1. `kubectl create -f server-service.yaml`
 
-Follow the instructions to install - [minikube](http://kubernetes.io/docs/getting-started-guides/minikube/)
-
 You can scale the number of servers by using the following command:
 
 `kubectl scale --replicas=3 -f server-controller.yaml`
 
-# Running on Google Cloud
+# Running Sample App
 
-[TBD]
+<kbd>![alt-text](https://github.com/azwickey-pivotal/geode-kubernetes/blob/master/screenshot.png)</kbd>
+
+*Steps*:
+
+1. `Deploy Geode to cluster (see above steps)`
+1. `kubectl create -f app-service.yml`
+1. `kubectl create -f app-rs.yml`
+1. SSH info application pod, launch gfsh, create region
+   `kubectl exec -it <geode app pod name> bash`
+   `gfsh`
+   `gfsh>connect --locator=geode-locator[10334]`
+   `create region --name=/test --type=PARTITION`
