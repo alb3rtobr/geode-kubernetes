@@ -6,7 +6,9 @@ Set of instructions and artifacts to get [Apache Geode](http://geode.incubator.a
 
 Go to the `image` directory and build the Docker image using:
 
-`docker build . -t <your image name and tag>`
+1. `docker build . -t <your image name and tag>`
+1. `docker push <your image name and tag>`
+1. Change references to the base image in each controller file to point to your personalized image
 
 # Running on PKS
 
