@@ -30,7 +30,7 @@ You can scale the number of servers by using the following command:
 1. `Deploy Geode to cluster (see above steps)`
 1. `kubectl create -f app-service.yml`
 1. `kubectl create -f app-rs.yml`
-1. SSH info application pod, launch gfsh, create region
+1. SSH info application pod<br>, launch gfsh, create region
    `kubectl exec -it <geode app pod name> bash`
    `gfsh`
    `gfsh>connect --locator=geode-locator[10334]`
