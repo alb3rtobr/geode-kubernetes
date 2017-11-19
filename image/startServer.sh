@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gfsh start server --name="${HOSTNAME}" --locators=${GEODE_LOCATOR_SERVICE_HOST}[${GEODE_LOCATOR_SERVICE_PORT}]
+gfsh start server --name="${HOSTNAME}" --locators=${GEODE_LOCATOR_HOST}[${GEODE_LOCATOR_PORT}]
 
 while true; do
   sleep 20

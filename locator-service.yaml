@@ -9,5 +9,6 @@ spec:
   ports:
   - port: 10334
     targetPort: 10334
+  clusterIP: None
   selector:
     geode-locator: "true"

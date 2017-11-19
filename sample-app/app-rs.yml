@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: ReplicaSet
+metadata:
+  name: geode-app
+  # labels so that we can bind a Service to this Pod
+  labels:
+    app: geode-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: geode-app
+  template:
+    metadata:
+      labels:
+        app: geode-app
+    spec:
+      containers:
+      - name: app
+        image: azwickey/geode-sample-app
+        ports:
+        - containerPort: 8080
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "pks"

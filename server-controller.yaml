@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: geode-server
 spec:
-  serviceName: "geode-locator"
+  serviceName: "geode-server"
   replicas: 3
   template:
     metadata:
@@ -18,3 +18,8 @@ spec:
         command: ["/startServer.sh"]
         ports:
           - containerPort: 40404
+        env:
+          - name: GEODE_LOCATOR_HOST
+            value: "geode-locator"
+          - name: GEODE_LOCATOR_PORT
+            value: "10334"
