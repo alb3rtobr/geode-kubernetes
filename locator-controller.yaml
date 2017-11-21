@@ -15,12 +15,20 @@ spec:
       containers:
       - name: locator
         image: azwickey/geode
-        command: ["/gfshWrapper.sh", "gfsh", "start", "locator", "--name=geode-locator", "--dir=/locator/data"]
+        command:
+        - bash
+        - /config/start.sh
         ports:
           - containerPort: 10334
         volumeMounts:
         - name: disk
           mountPath: /locator/data
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: config
+        configMap:
+          name: "locator"
   volumeClaimTemplates:
   - metadata:
       name: disk

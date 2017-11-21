@@ -15,11 +15,20 @@ spec:
       containers:
       - name: server
         image: azwickey/geode
-        command: ["/startServer.sh"]
+        command:
+        - bash
+        - /config/start.sh
         ports:
           - containerPort: 40404
+        volumeMounts:
+        - name: config
+          mountPath: /config
         env:
           - name: GEODE_LOCATOR_HOST
             value: "geode-locator"
           - name: GEODE_LOCATOR_PORT
             value: "10334"
+      volumes:
+      - name: config
+        configMap:
+          name: "server"
