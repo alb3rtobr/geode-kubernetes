@@ -14,10 +14,14 @@ Go to the `image` directory and build the Docker image using:
 
 *Steps*:
 
+1. `kubectl create -f bootstrap-configmap.yml`
+1. `kubectl create -f locator-configmap.yml`
+1. `kubectl create -f server-configmap.yml`
 1. `kubectl create -f locator-controller.yaml`
 1. `kubectl create -f locator-service.yaml`
 1. `kubectl create -f server-controller.yaml`
 1. `kubectl create -f server-service.yaml`
+1. `kubectl create -f bootstrap-job.yml`
 
 You can scale the number of servers by using the following command:
 
