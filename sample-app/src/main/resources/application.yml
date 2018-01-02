@@ -13,5 +13,5 @@ management:
 spring:
   profiles: pks
 locator:
-  host: geode-locator
-  port: 10334
+  host: ${LOCATOR_HOST:localhost}
+  port: ${LOCATOR_PORT:10334}

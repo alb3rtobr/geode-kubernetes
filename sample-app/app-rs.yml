@@ -23,3 +23,7 @@ spec:
         env:
           - name: SPRING_PROFILES_ACTIVE
             value: "pks"
+          - name: LOCATOR_HOST
+            value: "geode-locator"
+          - name: LOCATOR_PORT
+            value: "10334"
