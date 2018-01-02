@@ -33,7 +33,7 @@ spec:
   - metadata:
       name: disk
       annotations:
-        volume.beta.kubernetes.io/storage-class: slow
+        volume.beta.kubernetes.io/storage-class: standard
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
