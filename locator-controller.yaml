@@ -1,20 +1,23 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: geode-locator
 spec:
-  serviceName: "geode-locator"
-  replicas: 2
+  selector:
+    matchLabels:
+      app: geode-locator
+  serviceName: locator-service
+  replicas: 1
   template:
     metadata:
       labels:
-        name: geode-locator
+        app: geode-locator
         geode-locator: "true"
         role: locator
     spec:
       containers:
       - name: locator
-        image: azwickey/geode
+        image: alb3rtobr/geode-kubernetes:1.10.0
         command:
         - bash
         - /config/start.sh

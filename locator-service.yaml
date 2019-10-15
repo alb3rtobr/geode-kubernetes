@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: locator-service
+    name: geode-locator
     role: locator
-  name: geode-locator
+  name: locator-service
 spec:
   ports:
   - port: 10334

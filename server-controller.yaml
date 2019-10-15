@@ -1,20 +1,23 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: geode-server
 spec:
-  serviceName: "geode-server"
-  replicas: 3
+  selector:
+    matchLabels:
+      app: geode-server
+  serviceName: server-service
+  replicas: 1
   template:
     metadata:
       labels:
-        name: geode-server
+        app: geode-server
         geode-server: "true"
         role: server
     spec:
       containers:
       - name: server
-        image: azwickey/geode
+        image: alb3rtobr/geode-kubernetes:1.10.0
         command:
         - bash
         - /config/start.sh
