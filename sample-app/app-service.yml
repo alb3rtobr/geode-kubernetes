@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: geode-service
+  name: geode-app-service
 spec:
   ports:
   - port: 80

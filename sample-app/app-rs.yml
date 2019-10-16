@@ -1,7 +1,7 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: geode-app
+  name: geode-app-rs
   # labels so that we can bind a Service to this Pod
   labels:
     app: geode-app
@@ -24,6 +24,6 @@ spec:
           - name: SPRING_PROFILES_ACTIVE
             value: "pks"
           - name: LOCATOR_HOST
-            value: "geode-locator"
+            value: "locator-service"
           - name: LOCATOR_PORT
             value: "10334"
