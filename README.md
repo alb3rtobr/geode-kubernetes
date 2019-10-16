@@ -4,6 +4,11 @@ Set of instructions and artifacts to get [Apache Geode](http://geode.apache.org)
 
 # Deployment
 
+First, update dependencies:
+```
+helm dependency update geode-kub
+```
+
 Deploy using helm chart:
 
 ```
