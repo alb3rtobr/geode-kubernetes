@@ -1,0 +1,11 @@
+owner: "alb3rtobr"
+geode-locator:
+  name: geode-locator
+  port: 10334
+  image: alb3rtobr/geode-kubernetes:1.10.0
+geode-server:
+  name: geode-server
+  port: 40404
+  image: alb3rtobr/geode-kubernetes:1.10.0
+geode-app:
+  name: geode-app

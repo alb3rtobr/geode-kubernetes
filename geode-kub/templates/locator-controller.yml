@@ -5,19 +5,19 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: geode-locator
-  serviceName: locator-service
+      app: {{.Values.geode-locator.name}}
+  serviceName: {{.Values.geode-locator.name}}-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: geode-locator
+        app: {{.Values.geode-locator.name}}
         geode-locator: "true"
         role: locator
     spec:
       containers:
       - name: locator
-        image: alb3rtobr/geode-kubernetes:1.10.0
+        image: {{.Values.geode-locator.image}}
         command:
         - bash
         - /config/start.sh
@@ -41,4 +41,4 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 10Gi
+          storage: 5Gi
