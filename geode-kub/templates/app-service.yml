@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: geode-app-service
+  name: {{.Values.geode_app.name}}-service
 spec:
   ports:
   - port: 80
@@ -9,4 +9,4 @@ spec:
     protocol: TCP
   type: LoadBalancer
   selector:
-    app: geode-app
+    app: {{.Values.geode_app.name}}

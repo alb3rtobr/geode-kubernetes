@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: geode-app-rs
+  name: {{.Values.geode_app.name}}-rs
   # labels so that we can bind a Service to this Pod
   labels:
-    app: geode-app
+    app: {{.Values.geode_app.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: geode-app
+      app: {{.Values.geode_app.name}}
   template:
     metadata:
       labels:
-        app: geode-app
+        app: {{.Values.geode_app.name}}
     spec:
       containers:
       - name: app
-        image: azwickey/geode-sample-app
+        image: {{.Values.geode_app.image}}
         ports:
         - containerPort: 8080
         env:
           - name: SPRING_PROFILES_ACTIVE
             value: "pks"
           - name: LOCATOR_HOST
-            value: "locator-service"
+            value: "{{.Values.geode_locator.name}}-service"
           - name: LOCATOR_PORT
-            value: "10334"
+            value: "{{.Values.geode_locator.port}}"
