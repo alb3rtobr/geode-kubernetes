@@ -2,12 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: {{.Values.geode-server.name}}-service
-    role: {{.Values.geode-server.name}}
-  name: {{.Values.geode-server.name}}-service
+    name: {{.Values.geode_server.name}}-service
+    role: {{.Values.geode_server.name}}
+  name: {{.Values.geode_server.name}}-service
 spec:
   ports:
-  - port: {{.Values.geode-server.port}}
+  - port: {{.Values.geode_server.port}}
     name: peer
   clusterIP: None
   selector:

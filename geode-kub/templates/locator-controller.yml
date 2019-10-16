@@ -5,19 +5,19 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {{.Values.geode-locator.name}}
-  serviceName: {{.Values.geode-locator.name}}-service
+      app: {{.Values.geode_locator.name}}
+  serviceName: {{.Values.geode_locator.name}}-service
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{.Values.geode-locator.name}}
+        app: {{.Values.geode_locator.name}}
         geode-locator: "true"
         role: locator
     spec:
       containers:
       - name: locator
-        image: {{.Values.geode-locator.image}}
+        image: {{.Values.geode_locator.image}}
         command:
         - bash
         - /config/start.sh

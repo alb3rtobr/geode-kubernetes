@@ -2,13 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: {{.Values.geode-locator.name}}
+    name: {{.Values.geode_locator.name}}
     role: locator
-  name: {{.Values.geode-locator.name}}-service
+  name: {{.Values.geode_locator.name}}-service
 spec:
   ports:
-  - port: {{.Values.geode-locator.port}}
-    targetPort: {{.Values.geode-locator.port}}
+  - port: {{.Values.geode_locator.port}}
+    targetPort: {{.Values.geode_locator.port}}
   clusterIP: None
   selector:
     geode-locator: "true"
