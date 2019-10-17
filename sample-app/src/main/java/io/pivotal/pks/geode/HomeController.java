@@ -18,7 +18,8 @@ public class HomeController {
 	
 	private static Logger LOG = LoggerFactory.getLogger(HomeController.class);	
 	
-	@Autowired private GemfireTemplate _template;
+	@Autowired
+	private GemfireTemplate _template;
 	
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	@ResponseBody

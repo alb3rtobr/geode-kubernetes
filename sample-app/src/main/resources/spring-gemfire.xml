@@ -21,7 +21,7 @@
 		<gfe:locator host="${locator.host}" port="${locator.port}"/>
 	</gfe:pool>
 
-	<bean id="template" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="test"/>
+	<bean id="_template" class="org.springframework.data.gemfire.GemfireTemplate" p:region-ref="test"/>
 
 	<util:properties id="props">
     	<prop key="log-level">config</prop>
