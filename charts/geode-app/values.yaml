@@ -7,4 +7,4 @@ geode_server:
   port: 40404
 geode_app:
   name: geode-app
-  image: alb3rtobr/geode-sample-app:1.0.1
+  image: azwickey/geode-sample-app
