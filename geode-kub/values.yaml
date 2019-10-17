@@ -9,4 +9,4 @@ geode_server:
   image: alb3rtobr/geode-kubernetes:1.10.0
 geode_app:
   name: geode-app
-  image: azwickey/geode-sample-app 
+  image: alb3rtobr/geode-sample-app
