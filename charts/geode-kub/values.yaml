@@ -2,8 +2,8 @@ owner: "alb3rtobr"
 geode_locator:
   name: geode-locator
   port: 10334
-  image: alb3rtobr/geode-kubernetes:1.10.0
+  image: alb3rtobr/geode-kubernetes:1.10.0_prometheus
 geode_server:
   name: geode-server
   port: 40404
-  image: alb3rtobr/geode-kubernetes:1.10.0
+  image: alb3rtobr/geode-kubernetes:1.10.0_prometheus

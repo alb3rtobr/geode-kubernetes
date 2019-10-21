@@ -39,7 +39,7 @@ data:
         echo $LOCATOR_STR
     done
 
-    ./gfshWrapper.sh gfsh start locator --name=${HOSTNAME} --locators=$LOCATOR_STR --dir=/locator/data --J=-Dlog4j.configurationFile=/config/log4j2.xml
+    ./gfshWrapper.sh gfsh start locator --name=${HOSTNAME} --locators=$LOCATOR_STR --classpath=/jars/metrics-publishing-service-1.0-SNAPSHOT.jar --dir=/locator/data --J=-Dlog4j.configurationFile=/config/log4j2.xml
   log4j2.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
     <Configuration status="FATAL" shutdownHook="disable" packages="org.apache.geode.internal.logging.log4j">
