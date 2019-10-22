@@ -65,3 +65,14 @@ Then, deploy the app:
 helm install --name=geode-app charts/geode-app
 ```
 <kbd>![alt-text](https://github.com/azwickey-pivotal/geode-kubernetes/blob/master/screenshot.png)</kbd>
+
+# Links
+
+- ["Visualize your Geode metrics"](https://www.youtube.com/watch?v=stTWW5uBC5U&list=PLLLKxhUTSiRuoHYkB77NEu6Y3NJeLziU7&index=4&t=1s) (talk at SpringOne 2019)
+- [Publishing Geode Metrics to External Monitoring Systems](https://cwiki.apache.org/confluence/display/GEODE/Publishing+Geode+Metrics+to+External+Monitoring+Systems) (Geode wiki)
+- [Kubernetes monitoring with Prometheus in 15 minutes](https://itnext.io/kubernetes-monitoring-with-prometheus-in-15-minutes-8e54d1de2e13) (blog post)
+- [Helm stable/prometheus-operator: adding new scraping targets and troubleshooting](https://blog.pilosus.org/posts/2019/06/01/prometheus-operator-no-active-targets/) (blog post)
+
+- Repos:
+  - [Prometheus operator](https://github.com/coreos/prometheus-operator)
+  - [Geode registry example](https://github.com/moleske/geode-registry-example)
