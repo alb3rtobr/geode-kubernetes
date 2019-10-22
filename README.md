@@ -9,9 +9,12 @@ This repo contains the source code and helm charts needed to deploy the followin
 # Deployment
 
 Components have to be deployed in the following order:
+1. Prometheus operator
+1. Geode cluster
+1. Sample application
 
 
-# 1. Prometheus operator
+# Prometheus operator
 
 ```
 $ helm install stable/prometheus-operator --name prometheus-operator 
@@ -36,7 +39,7 @@ Check Grafana dashboard in `http://localhost:3000` (user `admin`, pass `prom-ope
 $ kubectl port-forward $(kubectl get pods --selector=app=grafana --output=jsonpath="{.items..metadata.name}") 3000
 ```
 
-# 2. Geode cluster
+# Geode cluster
 
 Deploy using helm chart:
 
@@ -49,7 +52,7 @@ helm install --name=geode-kub charts/geode-kub
 `metrics-publishing-service` contains the source code of a custom `MetricsPublishingService`. This adds a [Micrometer](https://micrometer.io/)'s `PrometheusMeterRegistry` to the Geode `MeterRegistry` when members are created, so Prometheus is able to gather metrics from them.
 
 
-## Sample web application
+# Sample web application
 
 A specific region needs to be created in the Geode cluster before the application is deployed:
 
