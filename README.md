@@ -1,8 +1,42 @@
 # Running Apache Geode on Kubernetes
 
-Set of instructions and artifacts to get [Apache Geode](http://geode.apache.org) running on [Kubernetes](http://kubernetes.io/).
+This repo contains the source code and helm charts needed to deploy the following components in [Kubernetes](http://kubernetes.io/):
+- [Apache Geode](http://geode.apache.org) cluster with a custom `MetricsPublishingService` to allow metrics gathering by Prometheus.
+- Sample application to introduce data in the [Apache Geode](http://geode.apache.org) cluster using a web interface.
 
-# Deployment of Geode cluster
+
+
+# Deployment
+
+Components have to be deployed in the following order:
+
+
+# 1. Prometheus operator
+
+```
+$ helm install stable/prometheus-operator --name prometheus-operator 
+```
+
+Check status:
+```
+$ kubectl get pods -l "release=prometheus-operator"
+NAME                                                 READY   STATUS    RESTARTS   AGE
+prometheus-operator-grafana-6bbd95d9c4-4kfvf         2/2     Running   0          53s
+prometheus-operator-operator-85f7fccfdf-vq67s        2/2     Running   0          53s
+prometheus-operator-prometheus-node-exporter-n2bnm   1/1     Running   0          53s
+```
+
+Check Prometheus dashboard in `http://localhost:9090` by forwarding port:
+```
+$ kubectl port-forward prometheus-prometheus-operator-prometheus-0 9090
+```
+
+Check Grafana dashboard in `http://localhost:3000` (user `admin`, pass `prom-operator`) by forwarding port:
+```
+$ kubectl port-forward $(kubectl get pods --selector=app=grafana --output=jsonpath="{.items..metadata.name}") 3000
+```
+
+# 2. Geode cluster
 
 Deploy using helm chart:
 
@@ -10,32 +44,21 @@ Deploy using helm chart:
 helm install --name=geode-kub charts/geode-kub
 ```
 
-<kbd>![alt-text](https://github.com/azwickey-pivotal/geode-kubernetes/blob/master/screenshot.png)</kbd>
+## Custom MetricsPublishingService
 
-Create the test region:
+`metrics-publishing-service` contains the source code of a custom `MetricsPublishingService`. This adds a [Micrometer](https://micrometer.io/)'s `PrometheusMeterRegistry` to the Geode `MeterRegistry` when members are created, so Prometheus is able to gather metrics from them.
+
+
+## Sample web application
+
+A specific region needs to be created in the Geode cluster before the application is deployed:
+
 1. Open gfsh in application pod: <br/>`kubectl exec -it <geode app pod name> gfsh`
 1. Connect to Geode cluster<br/>`gfsh>connect --locator=geode-locator-service[10334]`
 1. Create region <br/>`create region --name=/test --type=PARTITION`
 
-# Deployment of sample application
-
+Then, deploy the app:
 ```
 helm install --name=geode-app charts/geode-app
 ```
-
-# Deployment of Prometheus
-
-```
-$ helm install stable/prometheus-operator --name prometheus-operator --namespace monitoring
-```
-
-Check status:
-```
-$ kubectl --namespace monitoring get pods -l "release=prometheus-operator"
-NAME                                                 READY   STATUS    RESTARTS   AGE
-prometheus-operator-grafana-6bbd95d9c4-4kfvf         2/2     Running   0          53s
-prometheus-operator-operator-85f7fccfdf-vq67s        2/2     Running   0          53s
-prometheus-operator-prometheus-node-exporter-n2bnm   1/1     Running   0          53s
-```
-
-
+<kbd>![alt-text](https://github.com/azwickey-pivotal/geode-kubernetes/blob/master/screenshot.png)</kbd>
