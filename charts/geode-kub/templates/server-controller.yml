@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: {{.Values.geode_server.name}}
   serviceName: {{.Values.geode_server.name}}-service
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
@@ -24,12 +24,17 @@ spec:
         - /config/start.sh
         ports:
           - containerPort: {{.Values.geode_server.port}}
+            name: {{.Values.geode_server.port_name}}
+            protocol: TCP
+          - containerPort: {{.Values.geode_server.metrics_port}}
+            name: {{.Values.geode_server.metrics_port_name}}
+            protocol: TCP
         volumeMounts:
         - name: config
           mountPath: /config
         env:
           - name: GEODE_LOCATOR_HOST
-            value: "{{.Values.geode_locator.name}}"
+            value: "{{.Values.geode_locator.name}}-service"
           - name: GEODE_LOCATOR_PORT
             value: "{{.Values.geode_locator.port}}"
       volumes:

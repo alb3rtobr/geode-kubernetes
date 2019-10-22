@@ -9,6 +9,7 @@ geode_locator:
 geode_server:
   name: geode-server
   port: 40404
+  port_name: peer
   image: alb3rtobr/geode-kubernetes:test_prometheus
   metrics_port: 9000
   metrics_port_name: metrics-port
