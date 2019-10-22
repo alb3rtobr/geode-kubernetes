@@ -12,6 +12,6 @@ spec:
     matchLabels:
       name: {{.Values.geode_locator.name}}-service # target geode service
   endpoints:
-  - port: metrics
+  - port: {{.Values.geode_locator.metrics_port_name}}
     interval: 15s
     path: /metrics
