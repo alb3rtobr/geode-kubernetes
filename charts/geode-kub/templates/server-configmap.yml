@@ -5,6 +5,17 @@ metadata:
 data:
   start.sh: |
     #!/bin/bash
+    locator_ready=0
+    for (( try=0; try<=10 && locator_ready==0; try++ ))
+    do
+      gfsh -e "connect --locator=${GEODE_LOCATOR_HOST}[${GEODE_LOCATOR_PORT}]"
+      if [ $? -eq 0 ];then
+        locator_ready=1
+      else
+        sleep 5
+      fi
+    done
+
     JARS="/jars/metrics-publishing-service-1.0-SNAPSHOT.jar:/jars/micrometer-registry-prometheus-1.2.0.jar:/jars/simpleclient-0.6.0.jar"
     ./gfshWrapper.sh gfsh start server --name="${HOSTNAME}" --classpath=${JARS} --locators=${GEODE_LOCATOR_HOST}[${GEODE_LOCATOR_PORT}] --J=-Dlog4j.configurationFile=/config/log4j2.xml
   log4j2.xml: |
