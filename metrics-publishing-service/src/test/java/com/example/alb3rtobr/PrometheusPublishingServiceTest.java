@@ -50,7 +50,7 @@ class PrometheusPublishingServiceTest {
     void start_addsAnHttpEndpointThatReturnsStatusOK() throws IOException {
         subject.start(metricsSession);
 
-        HttpGet request = new HttpGet("http://localhost:9000/");
+        HttpGet request = new HttpGet("http://localhost:9000/metrics");
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         assertThat(response.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
@@ -62,7 +62,7 @@ class PrometheusPublishingServiceTest {
     void start_addsAnHttpEndpointThatContainsRegistryData() throws IOException {
         subject.start(metricsSession);
 
-        HttpGet request = new HttpGet("http://localhost:9000/");
+        HttpGet request = new HttpGet("http://localhost:9000/metrics");
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         String responseBody = EntityUtils.toString(response.getEntity());

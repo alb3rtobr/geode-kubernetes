@@ -18,11 +18,17 @@ spec:
       containers:
       - name: locator
         image: {{.Values.geode_locator.image}}
+        imagePullPolicy: Always
         command:
         - bash
         - /config/start.sh
         ports:
-          - containerPort: 10334
+          - containerPort: {{.Values.geode_locator.port}}
+            name: {{.Values.geode_locator.port_name}}
+            protocol: TCP
+          - containerPort: {{.Values.geode_locator.metrics_port}}
+            name: {{.Values.geode_locator.metrics_port_name}}
+            protocol: TCP
         volumeMounts:
         - name: disk
           mountPath: /locator/data

@@ -18,6 +18,7 @@ spec:
       containers:
       - name: server
         image: {{.Values.geode_server.image}}
+        imagePullPolicy: Always
         command:
         - bash
         - /config/start.sh

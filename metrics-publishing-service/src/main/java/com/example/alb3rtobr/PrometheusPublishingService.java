@@ -14,11 +14,14 @@ import io.micrometer.prometheus.PrometheusConfig;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 import org.apache.geode.metrics.MetricsSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PrometheusPublishingService implements MetricsPublishingService {
     private MetricsSession session;
     private PrometheusMeterRegistry registry;
     private HttpServer httpServer;
+    private static final Logger logger = LoggerFactory.getLogger(PrometheusPublishingService.class);
 
     @Override
     public void start(MetricsSession session) {
@@ -33,7 +36,7 @@ public class PrometheusPublishingService implements MetricsPublishingService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        HttpContext context = httpServer.createContext("/");
+        HttpContext context = httpServer.createContext("/metrics");
         context.setHandler(this::requestHandler);
         httpServer.start();
     }
