@@ -38,7 +38,7 @@ data:
         fi
         echo $LOCATOR_STR
     done
-    JARS="/jars/metrics-publishing-service-1.0-SNAPSHOT.jar:/jars/micrometer-registry-prometheus-1.2.0.jar:/jars/simpleclient-0.6.0.jar"
+    JARS="/jars/metrics-publishing-service-1.0-SNAPSHOT.jar"
 
     ./gfshWrapper.sh gfsh start locator --name=${HOSTNAME} --locators=$LOCATOR_STR --classpath=$JARS --dir=/locator/data --J=-Dlog4j.configurationFile=/config/log4j2.xml
   log4j2.xml: |
