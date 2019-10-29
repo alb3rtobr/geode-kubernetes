@@ -29,12 +29,13 @@ class PrometheusPublishingServiceTest {
 
     @Mock
     private MetricsSession metricsSession;
-
     private MetricsPublishingService subject;
+    private final int port=33334;
+    private final String ENDPOINT_URL ="http://localhost:"+port+PrometheusPublishingService.ENDPOINT;
 
     @BeforeEach
     void setUp() {
-        subject = new PrometheusPublishingService();
+        subject = new PrometheusPublishingService(port);
     }
 
     @Test
@@ -50,9 +51,8 @@ class PrometheusPublishingServiceTest {
     void start_addsAnHttpEndpointThatReturnsStatusOK() throws IOException {
         subject.start(metricsSession);
 
-        HttpGet request = new HttpGet("http://localhost:9000/metrics");
+        HttpGet request = new HttpGet(ENDPOINT_URL);
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
-
         assertThat(response.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
 
         subject.stop();
@@ -62,7 +62,7 @@ class PrometheusPublishingServiceTest {
     void start_addsAnHttpEndpointThatContainsRegistryData() throws IOException {
         subject.start(metricsSession);
 
-        HttpGet request = new HttpGet("http://localhost:9000/metrics");
+        HttpGet request = new HttpGet(ENDPOINT_URL);
         HttpResponse response = HttpClientBuilder.create().build().execute(request);
 
         String responseBody = EntityUtils.toString(response.getEntity());
@@ -84,7 +84,7 @@ class PrometheusPublishingServiceTest {
         subject.start(metricsSession);
         subject.stop();
 
-        HttpGet request = new HttpGet("http://localhost:9000/metrics");
+        HttpGet request = new HttpGet(ENDPOINT_URL);
 
         assertThrows(HttpHostConnectException.class, () -> {
             HttpClientBuilder.create().build().execute(request);

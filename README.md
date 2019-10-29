@@ -51,6 +51,63 @@ helm install --name=geode-kub charts/geode-kub
 
 `metrics-publishing-service` contains the source code of a custom `MetricsPublishingService`. This adds a [Micrometer](https://micrometer.io/)'s `PrometheusMeterRegistry` to the Geode `MeterRegistry` when members are created, so Prometheus is able to gather metrics from them.
 
+This custom `MetricsPublishingService` can be tested compiling the code with `./gradlew build` and adding the generated `jar` file to the classpath when a locator and/or server is started:
+
+```
+$ gfsh
+    _________________________     __
+   / _____/ ______/ ______/ /____/ /
+  / /  __/ /___  /_____  / _____  / 
+ / /__/ / ____/  _____/ / /    / /  
+/______/_/      /______/_/    /_/    1.10.0
+
+Monitor and Manage Apache Geode
+gfsh>start locator --name=locator --classpath=<path to metrics-publishing-service-1.0-SNAPSHOT.jar> --J=-Dprometheus.metrics.port=<port of choice>
+```
+
+If metrics are available for Prometheus, you will get an answer from the endpoint:
+
+```
+$ curl http://localhost:<port of choice>/
+# HELP jvm_buffer_memory_used_bytes An estimate of the memory that the Java virtual machine is using for this buffer pool
+# TYPE jvm_buffer_memory_used_bytes gauge
+jvm_buffer_memory_used_bytes{cluster_id="-1",host_name="10.149.73.47",id="mapped",member_name="locator",} 0.0
+jvm_buffer_memory_used_bytes{cluster_id="-1",host_name="10.149.73.47",id="direct",member_name="locator",} 90120.0
+# HELP jvm_memory_committed_bytes The amount of memory in bytes that is committed for the Java virtual machine to use
+# TYPE jvm_memory_committed_bytes gauge
+jvm_memory_committed_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Compressed Class Space",member_name="locator",} 1.4729216E7
+jvm_memory_committed_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Old Gen",member_name="locator",} 6.815744E8
+jvm_memory_committed_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Survivor Space",member_name="locator",} 1.1534336E8
+jvm_memory_committed_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Code Cache",member_name="locator",} 2.6017792E7
+jvm_memory_committed_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Eden Space",member_name="locator",} 7.19323136E8
+jvm_memory_committed_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Metaspace",member_name="locator",} 1.11960064E8
+# HELP jvm_memory_max_bytes The maximum amount of memory in bytes that can be used for memory management
+# TYPE jvm_memory_max_bytes gauge
+jvm_memory_max_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Compressed Class Space",member_name="locator",} 1.073741824E9
+jvm_memory_max_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Old Gen",member_name="locator",} 5.559025664E9
+jvm_memory_max_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Survivor Space",member_name="locator",} 1.1534336E8
+jvm_memory_max_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Code Cache",member_name="locator",} 2.5165824E8
+jvm_memory_max_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Eden Space",member_name="locator",} 2.555379712E9
+jvm_memory_max_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Metaspace",member_name="locator",} -1.0
+# HELP jvm_memory_used_bytes The amount of used memory
+# TYPE jvm_memory_used_bytes gauge
+jvm_memory_used_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Compressed Class Space",member_name="locator",} 1.4320256E7
+jvm_memory_used_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Old Gen",member_name="locator",} 6.1414768E7
+jvm_memory_used_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Survivor Space",member_name="locator",} 0.0
+jvm_memory_used_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Code Cache",member_name="locator",} 2.565856E7
+jvm_memory_used_bytes{area="heap",cluster_id="-1",host_name="10.149.73.47",id="PS Eden Space",member_name="locator",} 3.19615024E8
+jvm_memory_used_bytes{area="nonheap",cluster_id="-1",host_name="10.149.73.47",id="Metaspace",member_name="locator",} 1.10174128E8
+# HELP jvm_buffer_count_buffers An estimate of the number of buffers in the pool
+# TYPE jvm_buffer_count_buffers gauge
+jvm_buffer_count_buffers{cluster_id="-1",host_name="10.149.73.47",id="mapped",member_name="locator",} 0.0
+jvm_buffer_count_buffers{cluster_id="-1",host_name="10.149.73.47",id="direct",member_name="locator",} 6.0
+# HELP jvm_buffer_total_capacity_bytes An estimate of the total capacity of the buffers in this pool
+# TYPE jvm_buffer_total_capacity_bytes gauge
+jvm_buffer_total_capacity_bytes{cluster_id="-1",host_name="10.149.73.47",id="mapped",member_name="locator",} 0.0
+jvm_buffer_total_capacity_bytes{cluster_id="-1",host_name="10.149.73.47",id="direct",member_name="locator",} 90120.0
+
+```
+
 
 # Sample web application
 

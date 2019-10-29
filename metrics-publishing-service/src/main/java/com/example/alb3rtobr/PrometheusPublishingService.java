@@ -1,5 +1,7 @@
 package com.example.alb3rtobr;
 
+import io.micrometer.core.instrument.Counter;
+import org.apache.geode.annotations.VisibleForTesting;
 import org.apache.geode.metrics.MetricsPublishingService;
 
 import java.io.IOException;
@@ -9,36 +11,56 @@ import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.prometheus.PrometheusConfig;
+import static java.lang.Integer.getInteger;
+import static org.slf4j.LoggerFactory.getLogger;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 
 import org.apache.geode.metrics.MetricsSession;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static io.micrometer.prometheus.PrometheusConfig.DEFAULT;
 
 public class PrometheusPublishingService implements MetricsPublishingService {
+    private static final String PORT_PROPERTY = "prometheus.metrics.port";
+    private static final int DEFAULT_PORT = 0;
+    private static final String HOSTNAME = "localhost";
+    protected static final String ENDPOINT = "/";
+    private static final int PORT = getInteger(PORT_PROPERTY, DEFAULT_PORT);
+
+    private static Logger LOG = getLogger(PrometheusPublishingService.class);
+
+    private final int port;
     private MetricsSession session;
     private PrometheusMeterRegistry registry;
-    private HttpServer httpServer;
-    private static final Logger logger = LoggerFactory.getLogger(PrometheusPublishingService.class);
+    private HttpServer server;
+
+    public PrometheusPublishingService() {
+        this(PORT);
+    }
+
+    public PrometheusPublishingService(int port) {
+        this.port = port;
+    }
 
     @Override
     public void start(MetricsSession session) {
         this.session = session;
-        registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+        registry = new PrometheusMeterRegistry(DEFAULT);
         this.session.addSubregistry(registry);
 
-        InetSocketAddress address = new InetSocketAddress(9000);
-        httpServer = null;
+        InetSocketAddress address = new InetSocketAddress(HOSTNAME, port);
+        server = null;
         try {
-            httpServer = HttpServer.create(address, 0);
-        } catch (IOException e) {
-            e.printStackTrace();
+            server = HttpServer.create(address, 0);
+        } catch (IOException thrown) {
+            LOG.error("Exception while starting " + getClass().getSimpleName(), thrown);
         }
-        HttpContext context = httpServer.createContext("/metrics");
+        HttpContext context = server.createContext(ENDPOINT);
         context.setHandler(this::requestHandler);
-        httpServer.start();
+        server.start();
+
+        int boundPort = server.getAddress().getPort();
+        LOG.info("Started {} http://{}:{}{}", getClass().getSimpleName(), HOSTNAME, boundPort,ENDPOINT);
+
     }
 
     private void requestHandler(HttpExchange httpExchange) throws IOException {
@@ -52,6 +74,7 @@ public class PrometheusPublishingService implements MetricsPublishingService {
     @Override
     public void stop() {
         session.removeSubregistry(registry);
-        httpServer.stop(0);
+        registry = null;
+        server.stop(0);
     }
 }
